@@ -10,8 +10,15 @@ public class StudentController {
 
     Map<Integer,Student> db = new HashMap<>();
 
-    @GetMapping("/getStudent")
+    @GetMapping("/getStudentByAdmNo")
     public Student getStudent(@RequestParam("q") int admNo){
+        return db.get(admNo);
+    }
+    @PutMapping("/changeStudentByAdmNoAndName")
+    public Student changeStudentByAdmNoAndName(@RequestParam("admNo") int admNo,@RequestParam("name") String name){
+        Student student = db.get(admNo);
+        student.setName(name);
+        db.put(admNo,student);
         return db.get(admNo);
     }
 
@@ -21,4 +28,13 @@ public class StudentController {
         db.put(admNo,student);
         return "Student added successfully.";
     }
+
+    @DeleteMapping("/deleteStudent/{admNo}")
+    public String deleteStudent(@PathVariable("admNo") int admNo){
+        db.remove(admNo);
+        return "Student deleted successfully";
+    }
+
+
+
 }
